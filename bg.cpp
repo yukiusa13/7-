@@ -29,6 +29,7 @@ void bg_updata()
 	if (STATE(0)&PAD_DOWN)  { tp_y += 10; }
 	if (STATE(0)&PAD_RIGHT) { tp_x += 10; }
 	if (STATE(0)&PAD_LEFT)  { tp_x -= 10; }
+	if (TRG(0)&PAD_TRG1&&test[0].get_state()==0) { test[0].set_state(1); }
 	if (Judg_circle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 100, 
 		tp_x, tp_y, 100)) { r = 1; }
 	else
@@ -46,7 +47,15 @@ void bg_draw()
 #if TEST
 	primitive::circle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,100,0,1,1,1);
 	primitive::circle(tp_x, tp_y, 100,0,r,0,1);
+	switch (test[0].get_state())
+	{
+	case 0:
 	test[0].anim(sprData[number], 60, 5, 2, 10, 480, SCREEN_HEIGHT / 2,1,1,0,0,NUMBER_WIDTH,NUMBER_HEIGHT);
+		break;
+	case 1:
+		test[0].motion(sprData[number], 0,10, 5, 2, 10, 480, SCREEN_HEIGHT / 2, 1, 1, 0, 0, NUMBER_WIDTH, NUMBER_HEIGHT);
+		break;
+	}
 	test[1].anim(sprData[number], 60*10, 5, 2, 10, 480*3, SCREEN_HEIGHT / 2, 1, 1, 0, 0, NUMBER_WIDTH, NUMBER_HEIGHT);
 #endif // TEST
 
