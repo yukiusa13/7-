@@ -28,9 +28,10 @@ bool Judg_circle(float px_a,float py_a,int r_a,float px_b,float py_b,int r_b)
 	if (ra_b <= (xa_b + ya_b)) { return true; }
 	else { return false; }
 }
-
+void acceleration(OBJ* obj, const float max, const float min, const float flametimer = 30);
+void acceleration(ENEMY* obj, const float max, const float min, const float flametimer = 30);
 ////‰Á‘¬“x‚ÌŒvŽZ////
-void acceleration(OBJ* obj, const float max, const float min,const float flametimer=30)
+void acceleration(OBJ* obj, const float max, const float min,const float flametimer)
 {
 	float max_min=(max-min);
 	if (STATE(0)&PAD_R1&&obj->speed.x < max) { obj->speed.x += max_min / flametimer; }    //R‚ª‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔ‰Á‘¬
@@ -38,7 +39,7 @@ void acceleration(OBJ* obj, const float max, const float min,const float flameti
 	if (STATE(0)&PAD_L1&&obj->speed.x > min) { obj->speed.x -= max_min / flametimer; }     //‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔŒ¸‘¬
 	else if (obj->speed.x <= max_min / 2) { obj->speed.x += max_min / flametimer; }               //‚Í‚È‚³‚ê‚é‚ÆŠî€‚Ì‘¬“x‚Ü‚Å‰Á‘¬
 }
-void acceleration(ENEMY* obj, const float max, const float min, const float flametimer = 30)
+void acceleration(ENEMY* obj, const float max, const float min, const float flametimer)
 {
 	float max_min = (max - min);
 	if (STATE(0)&PAD_R1&&obj->speed.x < max) { obj->speed.x += max_min / flametimer; }    //R‚ª‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔ‰Á‘¬

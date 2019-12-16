@@ -19,6 +19,5 @@ bool Judg_circle(float px_a, float py_a, int r_a, float px_b, float py_b, int r_
 //const float max-> 最高速度
 //const float min-> 最低速度
 //const float flametimer->基準の速度から最高速、最低速になるまでの時間
-void acceleration(OBJ* obj, const float max, const float min, const float flametimer = 30);
-void acceleration(ENEMY* obj, const float max, const float min, const float flametimer = 30);
+
 #endif // !INCLUDED_OBJ2D

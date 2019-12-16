@@ -1,11 +1,7 @@
 #include "all.h"
 
-struct EnemyData
-{
-	int type;   // 出現する敵のタイプ
-	float time;   // 出現する時間（カウント）
-	float x, y; // 敵が出現する位置
-};
+
+ENEMY ememy[ENEMYMAX];//ENEMYクラスの実体
 EnemyData enemy_data[]//敵情報
 {
 	//{敵のタイプ,敵の出現時間,初期X座標,初期Y座標},
@@ -13,29 +9,9 @@ EnemyData enemy_data[]//敵情報
 
 
 
-
+	
 	{-1,-1,-1,-1}//終了
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void ENEMY::shot_init(float px,float py)
@@ -73,9 +49,16 @@ void ENEMY::shot_update()
 	}
 }
 
-void ENEMY::set_type(int type)
+void ENEMY::set_data(int type, float time, float px, float py)
 {
 	enemy_type = type;
+	enemytimer = time;
+	pos.x = px;
+	pos.y = py;
+	for (int i = 0; i < shot_max; i++)
+	{
+		enemyshot[i].exist = false;//弾の初期化全ての存在を消す
+	}
 #if 0//タイプ別でHPなどを設定するならこっちも使う
 	switch (type)
 	{
@@ -89,33 +72,23 @@ void ENEMY::set_type(int type)
 #endif
 }
 
-void ENEMY::init(float time,float px,float py)
-{
-	enemytimer = time;
-	pos.x = px;
-	pos.y = py;
-	for (int i = 0; i < shot_max; i++)
-	{
-		enemyshot[i].exist = false;//弾の初期化全ての存在を消す
-	}
-}
+
 
 void ENEMY::update()
 {
-
+	
 }
 
 void ENEMY::dorw()
 {
+	if (ENEMY::exist)//存在しているものだけ描画
+		{
+
+		}
 
 }
 //これが実際に使う方の初期化
-void ENEMY::set_data()
+void enemy_set(EnemyData* obj, ENEMY* ene)
 {
-	for (int i = 0;; i++) {
-		if (enemy_data[i].type == -1) { break; }
-		set_type(enemy_data[i].type);
-		init(enemy_data[i].time, enemy_data[i].x,enemy_data[i].y);
-
-	}
+	ene->set_data(obj->type, obj->time, obj->x, obj->y);
 }
