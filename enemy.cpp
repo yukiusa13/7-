@@ -43,6 +43,8 @@ void ENEMY::shot_update()
 
 		if (0)//当たり判定
 		{
+			//ダメージ処理とか書く
+
 			enemyshot[i].exist = false;
 		}
 
@@ -76,7 +78,15 @@ void ENEMY::set_data(int type, float time, float px, float py)
 
 void ENEMY::update()
 {
-	
+	switch (enemy_type)
+	{
+	case 0:enemy0_move();
+		break;
+	case 1:enemy1_move();
+		break;
+	case 2:enemy2_move();
+		break;
+	}
 }
 
 void ENEMY::dorw()
@@ -91,4 +101,20 @@ void ENEMY::dorw()
 void enemy_set(EnemyData* obj, ENEMY* ene)
 {
 	ene->set_data(obj->type, obj->time, obj->x, obj->y);
+}
+
+////タイプごとの行動////
+void ENEMY::enemy0_move()
+{
+
+}
+
+void ENEMY::enemy1_move()
+{
+
+}
+
+void ENEMY::enemy2_move()
+{
+
 }
