@@ -30,4 +30,5 @@ enum
 	pl_en = 0,
 	Flg_Max
 };
+
 #endif// ! INCLUDED_COMMON

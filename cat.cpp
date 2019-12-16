@@ -1,5 +1,6 @@
 #include "all.h"
 using namespace GameLib;
+using namespace input;
 //CAT:当たり判定
 ////当たり判定代入用の変数////
 bool judgflg[Flg_Max];
@@ -28,4 +29,20 @@ bool Judg_circle(float px_a,float py_a,int r_a,float px_b,float py_b,int r_b)
 	else { return false; }
 }
 
-
+////加速度の計算////
+void acceleration(OBJ* obj, const float max, const float min,const float flametimer=30)
+{
+	float max_min=(max-min);
+	if (STATE(0)&PAD_R1&&obj->speed.x < max) { obj->speed.x += max_min / flametimer; }    //Rが押されている間加速
+	else if (obj->speed.x >= max_min / 2) { obj->speed.x -= max_min / flametimer; }               //はなされると基準の速度まで落とす
+	if (STATE(0)&PAD_L1&&obj->speed.x > min) { obj->speed.x -= max_min / flametimer; }     //押されている間減速
+	else if (obj->speed.x <= max_min / 2) { obj->speed.x += max_min / flametimer; }               //はなされると基準の速度まで加速
+}
+void acceleration(ENEMY* obj, const float max, const float min, const float flametimer = 30)
+{
+	float max_min = (max - min);
+	if (STATE(0)&PAD_R1&&obj->speed.x < max) { obj->speed.x += max_min / flametimer; }    //Rが押されている間加速
+	else if (obj->speed.x >= max_min / 2) { obj->speed.x -= max_min / flametimer; }               //はなされると基準の速度まで落とす
+	if (STATE(0)&PAD_L1&&obj->speed.x > min) { obj->speed.x -= max_min / flametimer; }     //押されている間減速
+	else if (obj->speed.x <= max_min / 2) { obj->speed.x += max_min / flametimer; }               //はなされると基準の速度まで加速
+}

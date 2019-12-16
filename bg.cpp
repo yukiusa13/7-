@@ -7,35 +7,28 @@ extern int game_state;
 extern float fadeOut;
 extern Sprite* sprData[Spr_Max];
 #if TEST
-OBJ test[2];
-float tp_x;
-float tp_y;
-int r;
+OBJ test;
 #endif // TEST
 
 void bg_init()
 {
 #if TEST
-	tp_x = 100;
-	tp_y = 100;
-	r = 0;
+	test.pos = { 100,300 };
+	test.speed.x = 25;
+	test.LR = RIGHT;
 #endif // TEST
 
 }
 void bg_updata()
 {
 #if TEST
-	if (STATE(0)&PAD_UP)    { tp_y -= 10; }
-	if (STATE(0)&PAD_DOWN)  { tp_y += 10; }
-	if (STATE(0)&PAD_RIGHT) { tp_x += 10; }
-	if (STATE(0)&PAD_LEFT)  { tp_x -= 10; }
-	if (TRG(0)&PAD_TRG1&&test[0].get_state()==0) { test[0].set_state(1); }
-	if (Judg_circle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 100, 
-		tp_x, tp_y, 100)) { r = 1; }
-	else
-	{
-		r = 0;
-	}
+	if (test.pos.x < 25) { test.LR = RIGHT; }                      //画面端で折り返し
+	if (test.pos.x > 1895) { test.LR = LEFT; }                     //画面端で折り返し
+	if (STATE(0)&PAD_R1&&test.speed.x<50) { test.speed.x+=0.1; }   //Rが押されている間加速
+	else if(test.speed.x>=25){ test.speed.x-= 0.1; }               //はなされると基準の速度まで落とす
+	if (STATE(0)&PAD_L1&&test.speed.x > 1) { test.speed.x-= 0.1; } //押されている間減速
+	else if (test.speed.x <= 25) { test.speed.x+= 0.1; }           //はなされると基準の速度まで加速
+	test.pos.x += (test.speed.x*test.LR);                          //移動処理
 #endif // TEST
 }
 void bg_draw()
@@ -45,18 +38,9 @@ void bg_draw()
 		primitive::rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,0,0,0,1,0,0,1);
 	}
 #if TEST
-	primitive::circle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,100,0,1,1,1);
-	primitive::circle(tp_x, tp_y, 100,0,r,0,1);
-	switch (test[0].get_state())
-	{
-	case 0:
-	test[0].anim(sprData[number], 60, 5, 2, 10, 480, SCREEN_HEIGHT / 2,1,1,0,0,NUMBER_WIDTH,NUMBER_HEIGHT);
-		break;
-	case 1:
-		test[0].motion(sprData[number], 0,10, 5, 2, 10, 480, SCREEN_HEIGHT / 2, 1, 1, 0, 0, NUMBER_WIDTH, NUMBER_HEIGHT);
-		break;
-	}
-	test[1].anim(sprData[number], 60*10, 5, 2, 10, 480*3, SCREEN_HEIGHT / 2, 1, 1, 0, 0, NUMBER_WIDTH, NUMBER_HEIGHT);
+	primitive::circle(test.pos, 50);
+	primitive::rect(100, 500, 600, 100, 0, 0, 0, 0, 0,0);
+	primitive::rect(100, 500, test.speed.x * 12, 100, 0, 0, 0, 1, 1, 1);
 #endif // TEST
 
     if (game_state == 2)//フェイドアウト用ウィンドウ

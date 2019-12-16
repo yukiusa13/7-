@@ -13,5 +13,5 @@
 #include "Class.h"
 #include "audio.h"
 #include "cat.h"
-
+#include "enemy.h"
 #endif // !INCLUDED_ALL
