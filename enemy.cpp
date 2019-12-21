@@ -13,13 +13,14 @@ EnemyData enemy_data[]//敵情報
 	{-1,-1,-1,-1}//終了
 };
 
-
+//弾の発射時初期化
 void ENEMY::shot_init(float px,float py)
 {
 	for(int i=0;i<shot_max;i++)
 	{
 		if (!enemyshot[i].exist)
 		{
+			//弾の発射地点の設定
 			enemyshot[i].pos = { px,py };
 			enemyshot[i].exist = true;
 			break;
@@ -27,6 +28,7 @@ void ENEMY::shot_init(float px,float py)
 	}
 }
 
+//ショットの移動処理など
 void ENEMY::shot_update()
 {
 	for (int i = 0; i <shot_max; i++)
@@ -51,6 +53,7 @@ void ENEMY::shot_update()
 	}
 }
 
+//敵のデータの設定
 void ENEMY::set_data(int type, float time, float px, float py)
 {
 	enemy_type = type;
@@ -75,7 +78,7 @@ void ENEMY::set_data(int type, float time, float px, float py)
 }
 
 
-
+//更新処理
 void ENEMY::update()
 {
 	switch (enemy_type)
@@ -89,6 +92,7 @@ void ENEMY::update()
 	}
 }
 
+//描画処理
 void ENEMY::dorw()
 {
 	if (ENEMY::exist)//存在しているものだけ描画

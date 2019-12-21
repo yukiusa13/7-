@@ -28,9 +28,9 @@ bool Judg_circle(float px_a,float py_a,int r_a,float px_b,float py_b,int r_b)
 	if (ra_b <= (xa_b + ya_b)) { return true; }
 	else { return false; }
 }
-void acceleration(OBJ* obj, const float max, const float min, const float flametimer = 30);
-void acceleration(ENEMY* obj, const float max, const float min, const float flametimer = 30);
+
 ////‰Á‘¬“x‚ÌŒvŽZ////
+
 void acceleration(OBJ* obj, const float max, const float min,const float flametimer)
 {
 	float max_min=(max-min);

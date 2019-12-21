@@ -14,5 +14,5 @@
 #include "audio.h"
 #include "cat.h"
 #include "enemy.h"
-
+#include "player.h"
 #endif // !INCLUDED_ALL

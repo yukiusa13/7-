@@ -16,6 +16,8 @@ enum
 {
 	bg = 0,
 	number,
+	SHOT,
+	PLAYER,
 	Spr_Max
 };
 ////ミュージック用////

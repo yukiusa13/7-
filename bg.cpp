@@ -1,5 +1,5 @@
 #include "all.h"
-#define TEST (1)
+#define TEST (0)
 using namespace GameLib;
 using namespace input;
 extern int game_timer;
@@ -19,7 +19,7 @@ void bg_init()
 #endif // TEST
 
 }
-void bg_updata()
+void bg_update()
 {
 #if TEST
 	if (test.pos.x < 25) { test.LR = RIGHT; }                      //‰æ–Ê’[‚ÅÜ‚è•Ô‚µ
@@ -35,7 +35,7 @@ void bg_draw()
 {
 	if (game_state == 1) //ƒQ[ƒ€1
 	{
-		primitive::rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,0,0,0,1,0,0,1);
+		primitive::rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,0,0,0,1,1,1,1);
 	}
 #if TEST
 	primitive::circle(test.pos, 50);
