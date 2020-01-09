@@ -7,6 +7,7 @@
 #define SCREEN_HEIGHT   (1080)   // ‰æ–Ê‚Ì‚‚³
 #define SCENE_TITLE     (0)
 #define SCENE_GAME      (1)
+
 ////s“®‰Â”\”ÍˆÍ‚Ìİ’è—p////
 #define area_up    (0)
 #define	area_down  (1080)

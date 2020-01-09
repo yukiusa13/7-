@@ -6,11 +6,10 @@ extern int game_timer;
 extern int game_state; 
 extern float fadeOut;
 extern Sprite* sprData[Spr_Max];
-
+OBJ stage;
 
 void bg_init()
 {
-
 
 }
 void bg_update()
