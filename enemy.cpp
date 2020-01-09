@@ -1,10 +1,10 @@
 #include "all.h"
 
-
+extern OBJ stage;
 ENEMY ememy[ENEMYMAX];//ENEMYクラスの実体
 EnemyData enemy_data[]//敵情報
 {
-	//{敵のタイプ,敵の出現時間,初期X座標,初期Y座標},
+	//{敵のタイプ,敵の出現場所,初期X座標,初期Y座標},
 
 
 
@@ -29,12 +29,17 @@ void ENEMY::shot_init(float px,float py)
 }
 
 //ショットの移動処理など
+
 void ENEMY::shot_update()
 {
 	for (int i = 0; i <shot_max; i++)
 	{
+		//出現場所まで来たら存在フラグを立てる
+		if (enemy_app >= stage.pos.y)
+		{
+			exist = true;
+		}
 		//ここに移動処理などをを書く
-
 
 
 
@@ -54,10 +59,10 @@ void ENEMY::shot_update()
 }
 
 //敵のデータの設定
-void ENEMY::set_data(int type, float time, float px, float py)
+void ENEMY::set_data(int type,float app,float px, float py)
 {
 	enemy_type = type;
-	enemytimer = time;
+	enemy_app = app;
 	pos.x = px;
 	pos.y = py;
 	for (int i = 0; i < shot_max; i++)
@@ -96,33 +101,54 @@ void ENEMY::update()
 void ENEMY::dorw()
 {
 	if (ENEMY::exist)//存在しているものだけ描画
-		{
+	{
 
-		}
+	}
 
 }
 //これが実際に使う方の初期化
 void enemy_set(EnemyData* obj, ENEMY* ene)
 {
-	ene->set_data(obj->type, obj->time, obj->x, obj->y);
+	ene->set_data(obj->type, obj->app,obj->x, obj->y);
 }
+
 
 ////タイプごとの行動////
 void ENEMY::enemy0_move()
 {
 	switch (get_state())
 	{
-	default:
+	case 0:
+
+		break;
+	case 1:
+
 		break;
 	}
 }
 
 void ENEMY::enemy1_move()
 {
+	switch (get_state())
+	{
+	case 0:
 
+		break;
+	case 1:
+
+		break;
+	}
 }
 
 void ENEMY::enemy2_move()
 {
+	switch (get_state())
+	{
+	case 0:
 
+		break;
+	case 1:
+
+		break;
+	}
 }

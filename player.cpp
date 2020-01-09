@@ -87,7 +87,8 @@ void missile_update()
 	}
 }
 int shot_timer;//弾の発射用タイマー
-#define shot_time (5)
+#define shot_time (5)//通常弾の発射間隔
+#define missile_timer (60)//ミサイルの発射間隔
 void player_update()
 {
 	//移動処理
@@ -100,22 +101,27 @@ void player_update()
 	if (player.pos.x < area_left + 50)    { player.pos.x = area_left + 50;  }
 	if (player.pos.y < area_up + 50)      { player.pos.y = area_up + 50;    }
 	if (player.pos.y > area_down - 50)    { player.pos.y = area_down - 50;  }
-	//acceleration(&player, 50, 25);
+
 	//弾の発射
 	if (STATE(0)&PAD_TRG3)
 	{
+		//通常弾の発射
 		if(shot_timer%shot_time ==0)
-		shot_init();
+		{
+			shot_init();
+		}
+	    //ミサイルの発射
+		if (shot_timer%missile_timer == 0 && shot_timer)
+		{
+			missile_init();
+		}
 		shot_timer++;
 	}
 	else if(shot_timer!=0){ shot_timer = 0; }//タイマーのリセット
 	shot_update();
-	//ミサイルの発射
-	if (TRG(0)&PAD_TRG1)
-	{
-		missile_init();
-	}
 	missile_update();
+	//システム//
+	acceleration();
 }
 
 void player_draw()

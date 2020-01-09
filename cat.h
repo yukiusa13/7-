@@ -15,9 +15,8 @@ bool Judg_rect(float px_a, float py_a, int sx_a, int sy_a,
 //int r_b-> “–‚½‚è”»’è‚ðs‚¤2‚Â‚ÌƒIƒuƒWƒFƒNƒg‚Ì2‚Â–Ú‚Ì”¼Œa
 bool Judg_circle(float px_a, float py_a, int r_a, float px_b, float py_b, int r_b);
 ////‰Á‘¬“x‚ÌŒvŽZ////
-//OBJƒNƒ‰ƒX‚ÌŽÀ‘Ì–”‚Í‚»‚Ì”h¶ƒNƒ‰ƒX‚ÌŽÀ‘Ì
-//const float max-> Å‚‘¬“x
-//const float min-> Å’á‘¬“x
-//const float flametimer->Šî€‚Ì‘¬“x‚©‚çÅ‚‘¬AÅ’á‘¬‚É‚È‚é‚Ü‚Å‚ÌŽžŠÔ
-
+//const float max-> Å‚”{—¦(ˆø”‚È‚µ->‚Q)
+//const float min-> Å’á”{—¦(ˆø”‚È‚µ->0.5)
+//const float flametimer->Šî€‚Ì”{—¦‚©‚çÅ‚”{—¦AÅ’á”{—¦‚É‚È‚é‚Ü‚Å‚ÌŽžŠÔ(ˆø”‚È‚µ->30)
+void acceleration(const float max=2.0f, const float min=0.5f, const int flametimer=30);
 #endif // !INCLUDED_OBJ2D
