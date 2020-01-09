@@ -2,7 +2,7 @@
 #define INCLUDED_BG
 
 void bg_init();
-void bg_updata();
+void bg_update();
 void bg_draw();
 
 

@@ -1,5 +1,6 @@
 #include "all.h"
 using namespace GameLib;
+using namespace input;
 //CAT:当たり判定
 ////当たり判定代入用の変数////
 bool judgflg[Flg_Max];
@@ -24,8 +25,18 @@ bool Judg_circle(float px_a,float py_a,int r_a,float px_b,float py_b,int r_b)
 	float xa_b = ((px_a - px_b)*(px_a - px_b));
 	float ya_b = ((py_a - py_b)*(py_a - py_b));
 	float ra_b = ((r_a + r_b)*(r_a + r_b));
-	if (ra_b <= (xa_b + ya_b)) { return true; }
+	if (ra_b >= (xa_b + ya_b)) { return true; }
 	else { return false; }
 }
 
+////加速度の計算////
+float magnification;//倍率
+void acceleration(const float max, const float min,const int flametimer)
+{
+	float max_min=(max-min);
+	if (STATE(0)&PAD_R1&&magnification < max) { magnification += max_min / flametimer; }    //Rが押されている間加速
+	else if (magnification >= max_min / 2) { magnification -= max_min / flametimer; }       //はなされると基準の速度まで落とす
+	if (STATE(0)&PAD_L1&&magnification > min) { magnification -= max_min / flametimer; }    //押されている間減速
+	else if (magnification <= max_min / 2) { magnification += max_min / flametimer; }       //はなされると基準の速度まで加速
+}
 

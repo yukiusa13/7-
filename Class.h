@@ -1,4 +1,8 @@
 #pragma once
+struct COLOR
+{
+	float r, g, b, a;
+};
 class OBJ
 {
 private:
@@ -10,15 +14,21 @@ private:
 	int chipcou;
 	int chipx;
 	int chipy;
+	COLOR color;
 	//int switching_time;
 	//初期化
-	void class_init();
+	void chip_reset();
 	//アニメーションタイマー初期化するためのフラグ返す関数
 	bool timer_init(int STATE);
 public:
 	OBJ();
+	int hp;
 	void set_state(int STATE);
 	int get_state();
+	VECTOR2 speed;
+	VECTOR2 pos;
+	int LR;
+	bool exist;
     //画像データ
     //切り替え時間(フレーム単位)
     //横、縦のチップの個数(x,y)
@@ -66,4 +76,9 @@ public:
 		float rad = 0.0f,
 		float r = 1.0f, float g = 1.0f, float b = 1.0f, float a = 1.0f);
 };
-
+////加速度の計算////
+//速度を変えるOBJの実体
+//最高速度
+//最低速度
+//基準の速度から最高速度、最低速度までの時間引数なしは0.5秒
+void acceleration(OBJ* obj, const float max, const float min, const float flametimer = 30);

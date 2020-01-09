@@ -1,7 +1,7 @@
 #include "all.h"
 using namespace GameLib;
 
-void OBJ::class_init()
+void OBJ::chip_reset()
 {
 	chipcou =1;
 	chipx = 0;
@@ -64,7 +64,7 @@ void OBJ::anim(
 	}
 	if (OBJ::animetimer <= 0)
 	{
-		OBJ::class_init();
+		OBJ::chip_reset();
 	}
 	if (animetimer != 0 && animetimer%time == 0)
 	{
@@ -131,7 +131,7 @@ void OBJ::motion(
 	}
 	if (OBJ::animetimer <= 0)
 	{											  
-		OBJ::class_init();
+		OBJ::chip_reset();
 	}
 	if (animetimer != 0 && animetimer%time == 0)
 	{
