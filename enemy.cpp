@@ -110,7 +110,11 @@ void enemy_set(EnemyData* obj, ENEMY* ene)
 ////タイプごとの行動////
 void ENEMY::enemy0_move()
 {
-
+	switch (get_state())
+	{
+	default:
+		break;
+	}
 }
 
 void ENEMY::enemy1_move()

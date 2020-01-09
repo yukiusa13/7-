@@ -25,7 +25,7 @@ bool Judg_circle(float px_a,float py_a,int r_a,float px_b,float py_b,int r_b)
 	float xa_b = ((px_a - px_b)*(px_a - px_b));
 	float ya_b = ((py_a - py_b)*(py_a - py_b));
 	float ra_b = ((r_a + r_b)*(r_a + r_b));
-	if (ra_b <= (xa_b + ya_b)) { return true; }
+	if (ra_b >= (xa_b + ya_b)) { return true; }
 	else { return false; }
 }
 

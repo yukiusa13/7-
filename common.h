@@ -17,6 +17,7 @@
 ////左右/////
 #define LEFT  (-1)
 #define RIGHT (1)
+//デバックモードでのみ実行するための
 #define debug (1)
 void spr_load();//画像読み込み関数
 //// スプライト用 ////

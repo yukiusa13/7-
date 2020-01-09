@@ -16,6 +16,7 @@ private:
 	int enemy_type=-1;//敵のタイプ　初期値はマイナス　
 	float enemytimer;//敵出現用タイマー(仮)
 public:
+	
 	void set_data(int type, float time, float px, float py);//敵のデータの設定
 	void shot_init(float px, float py);//弾の発射時初期化
 	void shot_update();//ショットの移動処理など
