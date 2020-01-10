@@ -7,9 +7,11 @@ OBJ shot[shotmax];
 #define missilemax (16)
 OBJ  missile[missilemax];
 extern Sprite* sprData[Spr_Max];
+int in_stage;
 void player_init()
 {
-	player.pos = { 100,300 };
+	in_stage = 0;
+	player.pos = { SCREEN_WIDTH/2,1300 };
 	player.speed.x = 5;
 	player.speed.y = 5;
 	player.LR = RIGHT;
@@ -122,6 +124,7 @@ void player_update()
 	missile_update();
 	//ƒVƒXƒeƒ€//
 	acceleration();
+	
 }
 
 void player_draw()

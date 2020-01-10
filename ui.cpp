@@ -3,8 +3,10 @@ using namespace GameLib;
 extern int game_timer;
 extern int game_state;
 extern Sprite* sprData[Spr_Max];
+#if debug
 extern OBJ test;
-
+#endif
+extern int game_timer;
 void ui_draw(int state, int score)
 {
     switch (state)
@@ -12,7 +14,10 @@ void ui_draw(int state, int score)
     case 0:
         break;
     case 1:
-        break;
+#if debug//テスト用のタイマー
+		dispScore(game_timer/60, 200, 0, 0.5, 6);
+#endif
+		break;
     }
    }
  void dispScore(int sc, float xpos, float ypos, float scale, int keta)
