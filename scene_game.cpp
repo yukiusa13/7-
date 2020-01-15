@@ -2,24 +2,27 @@
 using namespace GameLib;
 using namespace input;
 int game_state;    // 状態
-int game_timer;    // タイマー
 int game_score;
 extern int nextScene;
 extern float fadeOut;
 extern Sprite* sprData[Spr_Max];
 extern wchar_t* sprName[];
+
+
 void game_init()
 {
 	spr_load();
 	bg_init();
 	player_init();
+	enemy_init();
     game_state = 0;
-    game_timer = 0;
+ 
 }
 void common()
 {
 	bg_update                                                                                                                                                                                                                                            ();
 	player_update();
+	enemy_update();
 }
 void game_update()
 {
@@ -51,12 +54,13 @@ void game_update()
     {
         nextScene = SCENE_TITLE;
     }
-    game_timer++;
+   
 }
 
 void game_draw()
 {
     bg_draw();
+	enemy_draw();
 	player_draw();
     ui_draw(game_state, game_score);
 }

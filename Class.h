@@ -22,6 +22,10 @@ private:
 	//アニメーションタイマー初期化するためのフラグ返す関数
 	bool timer_init(int STATE);
 public:
+	//フェイドイン,アウト用の変数
+	int fade;
+	int next;
+
 	OBJ();
 	int hp;
 	void set_state(int STATE);
@@ -30,6 +34,7 @@ public:
 	VECTOR2 pos;
 	int LR;
 	bool exist;
+
     //画像データ
     //切り替え時間(フレーム単位)
     //横、縦のチップの個数(x,y)
@@ -78,12 +83,12 @@ public:
 		float r = 1.0f, float g = 1.0f, float b = 1.0f, float a = 1.0f);
 };
 //当たり判定クラス(実体のおまけ付き)
-class JUDGE
+static bool jugde_flg[Flg_Max];
+static class JUDGE
 {
 public:
 	//CAT:当たり判定
     //当たり判定代入用の変数
-	bool flg[Flg_Max];
 	//矩形の当たり判定
     //float px_a,float py_a ->当たり判定を行う2つのオブジェクトの1つ目の左上の座標(X,Y)
     //int sx_a,int sy_a ->当たり判定を行う2つのオブジェクトの1つ目の横と縦の長さ(X,Y)

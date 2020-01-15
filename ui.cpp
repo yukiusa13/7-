@@ -15,7 +15,7 @@ void ui_draw(int state, int score)
         break;
     case 1:
 #if debug//テスト用のタイマー
-		dispScore(game_timer/60, 200, 0, 0.5, 6);
+		dispScore(game_timer, 200, 0, 0.5, 6);
 #endif
 		break;
     }

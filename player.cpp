@@ -1,25 +1,28 @@
 #include "all.h"
 using namespace GameLib;
 using namespace input;
+
 OBJ player;
-#define shotmax (32)
 OBJ shot[shotmax];
-#define missilemax (16)
-OBJ  missile[missilemax];
+OBJ missile[missilemax];
 extern Sprite* sprData[Spr_Max];
-int in_stage;
+
+
+//ゲームタイマー
+int game_timer;
+
 void player_init()
 {
-	in_stage = 0;
+	player.fade = 0;
 	player.pos = { SCREEN_WIDTH/2,1300 };
-	player.speed.x = 5;
-	player.speed.y = 5;
+	player.speed = {10,10};
 	player.LR = RIGHT;
 	for (int i = 0; i < shotmax; i++)
 	{
 		shot[i].exist = false;
 	}
 }
+
 void shot_init()
 {
 	for (int i = 0; i < shotmax; i++)
@@ -48,17 +51,37 @@ void shot_update()
 		}
 	}
 }
+int tage[missilemax/2];//ターゲットの敵ラベル保存先
+extern ENEMY enemy[ENEMYMAX];
 void missile_init()
 {
 	//2個づつペア分けする
 	for (int i = 0; i < missilemax; i += 2)
 	{
+
 		if (!missile[i].exist)
 		{
 			missile[i].pos   = { player.pos.x+25,player.pos.y};
 			missile[i+1].pos = { player.pos.x-25,player.pos.y};
 			missile[i].exist   = true;
 			missile[i+1].exist = true;
+			for (int j = 0; j < ENEMYMAX; j++)
+			{
+				switch (j)
+				{
+				case 0:
+					tage[i/2] = j;
+					break;
+				default:
+					if (enemy[j].pos.y > enemy[tage[i/2]].pos.y&&enemy[j].exist)
+					{
+						tage[i/2] = j;
+					}
+					break;
+				}
+			}
+			
+		
 			break;
 		}
 	}
@@ -66,6 +89,7 @@ void missile_init()
 #define missilespeed (30)//ミサイルの速度
 void missile_update()
 {
+	
 	for (int i = 0; i < missilemax; i+=2)
 	{
 		if (missile[i].exist)
@@ -86,45 +110,68 @@ void missile_update()
 			if (missile[i+1].pos.x < area_left)  { missile[i+1].exist = false; }
 			if (missile[i+1].pos.x > area_right) { missile[i+1].exist = false; }
 		}
+		//missile[i].speed = { (player.pos.x - enemy[tage[i]].pos.x) / 50,(player.pos.y - enemy[tage[i]].pos.y) / 50 };
+		//missile[i+1].speed = { (player.pos.x - enemy[tage[i]].pos.x) / 50,(player.pos.y - enemy[tage[i]].pos.y) / 50 };
+		//missile[i].pos -= missile[i].speed;
+        //missile[i+1].pos -= missile[i+1].speed;
 	}
 }
 int shot_timer;//弾の発射用タイマー
 #define shot_time (5)//通常弾の発射間隔
 #define missile_timer (60)//ミサイルの発射間隔
+extern float magnification;
 void player_update()
 {
-	//移動処理
-	if (STATE(0)&PAD_UP)   {player.pos.y-=player.speed.y;}
-	if (STATE(0)&PAD_DOWN) {player.pos.y+=player.speed.y;}
-	if (STATE(0)&PAD_LEFT) {player.pos.x-=player.speed.x;}
-	if (STATE(0)&PAD_RIGHT){player.pos.x+=player.speed.x;}
-	//エリア外チャック
-	if (player.pos.x > area_right - 50)   { player.pos.x = area_right - 50; }
-	if (player.pos.x < area_left + 50)    { player.pos.x = area_left + 50;  }
-	if (player.pos.y < area_up + 50)      { player.pos.y = area_up + 50;    }
-	if (player.pos.y > area_down - 50)    { player.pos.y = area_down - 50;  }
-
-	//弾の発射
-	if (STATE(0)&PAD_TRG3)
+	switch (player.fade)
 	{
-		//通常弾の発射
-		if(shot_timer%shot_time ==0)
+	case 0:
+		magnification = 0;
+		player.pos.y -= player.speed.y;
+		if (player.pos.y < 950)
 		{
-			shot_init();
+			player.fade++;
 		}
-	    //ミサイルの発射
-		if (shot_timer%missile_timer == 0 && shot_timer)
+		break;
+	case 1:
+		//移動処理
+		if (STATE(0)&PAD_UP) { player.pos.y -= player.speed.y; }
+		if (STATE(0)&PAD_DOWN) { player.pos.y += player.speed.y; }
+		if (STATE(0)&PAD_LEFT) { player.pos.x -= player.speed.x; }
+		if (STATE(0)&PAD_RIGHT) { player.pos.x += player.speed.x; }
+		//エリア外チャック
+		if (player.pos.x > area_right - 50) { player.pos.x = area_right - 50; }
+		if (player.pos.x < area_left + 50) { player.pos.x = area_left + 50; }
+		if (player.pos.y < area_up + 50) { player.pos.y = area_up + 50; }
+		if (player.pos.y > area_down - 50) { player.pos.y = area_down - 50; }
+
+		//弾の発射
+		if (STATE(0)&PAD_TRG3)
 		{
-			missile_init();
+			//通常弾の発射
+			if (shot_timer%shot_time == 0)
+			{
+				shot_init();
+				
+			}
+			//ミサイルの発射
+			if (shot_timer%missile_timer == 0 && shot_timer)
+			{
+				missile_init();
+			}
+			if (shot_timer % 300==0)
+			{
+				sound::play(gibara);
+			}
+			shot_timer++;
 		}
-		shot_timer++;
+		else if (shot_timer != 0) { shot_timer = 0; }//タイマーのリセット
+		shot_update();
+		missile_update();
+		//システム//
+		acceleration();
+		game_timer++;
+		break;
 	}
-	else if(shot_timer!=0){ shot_timer = 0; }//タイマーのリセット
-	shot_update();
-	missile_update();
-	//システム//
-	acceleration();
-	
 }
 
 void player_draw()

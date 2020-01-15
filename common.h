@@ -11,8 +11,8 @@
 ////行動可能範囲の設定用////
 #define area_up    (0)
 #define	area_down  (1080)
-#define	area_left  (0)
-#define	area_right (1920)
+#define	area_left  (300)
+#define	area_right (1620)
 
 
 ////左右/////
@@ -40,6 +40,8 @@ enum
 enum
 {
 	pl_en = 0,
+	pls_en,
+	plm_en,
 	Flg_Max
 };
 
