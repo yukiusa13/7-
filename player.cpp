@@ -1,4 +1,14 @@
-#include "all.h"
+#include "./GameLib/game_lib.h"
+#include "./GameLib/template.h"
+#include "./GameLib/input_manager.h"
+#include "./GameLib/obj2d_data.h"
+#include "Class.h"
+#include "common.h"
+#include "data.h"
+#include "player.h"
+#include "enemy.h"
+#include "cat.h"
+#include "audio.h"
 using namespace GameLib;
 using namespace input;
 
@@ -35,7 +45,7 @@ void shot_init()
 		}
 	}
 }
-#define shotspeed (15)//弾の速度
+
 void shot_update()
 {
 	for (int i = 0; i < shotmax; i++)
@@ -86,7 +96,7 @@ void missile_init()
 		}
 	}
 }
-#define missilespeed (30)//ミサイルの速度
+
 void missile_update()
 {
 	
@@ -117,8 +127,7 @@ void missile_update()
 	}
 }
 int shot_timer;//弾の発射用タイマー
-#define shot_time (5)//通常弾の発射間隔
-#define missile_timer (60)//ミサイルの発射間隔
+
 extern float magnification;
 void player_update()
 {
@@ -169,6 +178,17 @@ void player_update()
 		missile_update();
 		//システム//
 		acceleration();
+#if debug //D(KB)orY(CON)を押したら注意マークを出す
+		extern bool note;
+		if(STATE(0)&PAD_TRG4)
+		{ 
+			note=true;
+		}
+		else if(note)
+		{
+			note = false;
+		}
+#endif
 		game_timer++;
 		break;
 	}
@@ -177,27 +197,27 @@ void player_update()
 void player_draw()
 {
 	
-	sprite_render(sprData[PLAYER], player.pos.x, player.pos.y,1,1,0,0,100,100,50,50);
+	sprite_render(sprData[Player], player.pos.x, player.pos.y,1,1,0,0,100,100,50,50);
 #if debug
 	//当たり判定確認用のプリミティブ(円)の描画//
-	primitive::circle(player.pos.x, player.pos.y, 50, 1, 0, 0, 0.5);
+	primitive::circle(player.pos.x, player.pos.y, player_rad, 1, 0, 0, 0.5);
 	//弾の描画
 #endif // debug	
 	for (int i = 0; i < shotmax; i++)
 	{
-		if (shot[i].exist)sprite_render(sprData[SHOT], shot[i].pos.x, shot[i].pos.y, 1, 1, 0, 0, 40, 40, 20, 20);
+		if (shot[i].exist)sprite_render(sprData[Shot], shot[i].pos.x, shot[i].pos.y, 1, 1, 0, 0, 20, 40, 10, 20);
 #if debug	
-		if (shot[i].exist)primitive::circle(shot[i].pos.x, shot[i].pos.y, 20, 0, 0, 1, 0.5);
+		if (shot[i].exist)primitive::circle(shot[i].pos.x, shot[i].pos.y, shot_rad, 0, 0, 1, 0.5);
 #endif
 	}
 	//ミサイルの描画
 	for (int i = 0; i < missilemax; i++)
 	{
-		if (missile[i].exist)   sprite_render(sprData[SHOT], missile[i].pos.x  , missile[i].pos.y  , 1, 1, 40, 0, 40, 40, 20, 20);
-		if (missile[i+1].exist) sprite_render(sprData[SHOT], missile[i+1].pos.x, missile[i+1].pos.y, 1, 1, 40, 0, 40, 40, 20, 20);
+		if (missile[i].exist)   sprite_render(sprData[Shot], missile[i].pos.x  , missile[i].pos.y  , 1, 1, 0, 0, 20, 40, 10, 20);
+		if (missile[i+1].exist) sprite_render(sprData[Shot], missile[i+1].pos.x, missile[i+1].pos.y, 1, 1, 0, 0, 20, 40, 10, 20);
 #if debug	
-		if (missile[i].exist)   primitive::circle(missile[i].pos.x  , missile[i].pos.y  , 20, 0, 0, 1, 0.5);
-		if (missile[i+1].exist) primitive::circle(missile[i+1].pos.x, missile[i+1].pos.y, 20, 0, 0, 1, 0.5);
+		if (missile[i].exist)   primitive::circle(missile[i].pos.x  , missile[i].pos.y  , shot_rad, 0, 0, 1, 0.5);
+		if (missile[i+1].exist) primitive::circle(missile[i+1].pos.x, missile[i+1].pos.y, shot_rad, 0, 0, 1, 0.5);
 #endif
 	}
 }

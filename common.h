@@ -24,10 +24,13 @@ void spr_load();//画像読み込み関数
 //// スプライト用 ////
 enum 
 {
-	bg = 0,
-	number,
-	SHOT,
-	PLAYER,
+	Bg = 0,
+	Number,
+	Shot,
+	Player,
+	Note,
+	Enemy,
+	Boss,
 	Spr_Max
 };
 ////ミュージック用////

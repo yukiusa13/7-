@@ -1,6 +1,8 @@
 #pragma once
 #include "Class.h"
-#define  ENEMYMAX (32)
+#if 1
+#include "common.h"
+#endif
 struct EnemyData
 {
 	int type;   // 出現する敵のタイプ
@@ -32,7 +34,7 @@ public:
 ////エネミーの初期化////
 //エネミーのデータの構造体の実体
 //エネミーの実体
-	void enemy_set(EnemyData* obj,ENEMY ene);
+	//void enemy_set(EnemyData* obj,ENEMY ene);
 	void enemy_init();//game_init書くやつ
 	void enemy_update();//game_update書くやつ
 	void enemy_draw();//game_draw書くやつ

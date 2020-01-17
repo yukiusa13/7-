@@ -1,9 +1,16 @@
-#include "all.h"
+#include "./GameLib/game_lib.h"
+#include "./GameLib/template.h"
+#include "./GameLib/input_manager.h"
+#include "./GameLib/obj2d_data.h"
+#include "enemy.h"
+#include "common.h"
+#include "data.h"
 using namespace GameLib;
 
 extern OBJ stage[2];
 ENEMY enemy[ENEMYMAX];//ENEMYクラスの実体
 extern float magnification;
+extern Sprite* sprData[Spr_Max];
 EnemyData enemy_data[]//敵情報
 {
 	//{敵のタイプ,敵の出現場所,初期X座標,初期Y座標},
@@ -108,14 +115,32 @@ void ENEMY::update()
 //描画処理
 void ENEMY::dorw()
 {
-	if (ENEMY::exist)//存在しているものだけ描画
+	switch (enemy_type)
 	{
+	case 1:
+		if (ENEMY::exist)//存在しているものだけ描画
+		{
+			sprite_render(sprData[Enemy], pos.x, pos.y, 1, 1, 0, 0, 74, 74, 74 / 2, 74 / 2);
 #if debug
-		//当たり判定確認用のプリミティブ(円)の描画//
-		primitive::circle(pos.x,pos.y, 50, 1, 0, 0, 1);
+			//当たり判定確認用のプリミティブ(円)の描画//
+			primitive::circle(pos.x, pos.y, enemy_rad, 1, 0, 0, 0.3);
 #endif
-	}
+		}
+			break;
+#if debug
+	case 10:
+		if (ENEMY::exist)//存在しているものだけ描画
+		{
+			//sprite_render(sprData[BOSS], pos.x, pos.y, 1, 1, 0, 0, 600, 250, 300, 125);
+			sprite_render(sprData[Enemy], pos.x, pos.y, 1, 1, 0, 0, 74, 74, 74 / 2, 74 / 2);
+			//当たり判定確認用のプリミティブ(円)の描画//
+			primitive::circle(pos.x, pos.y, enemy_rad, 1, 0, 0, 0.3);
 
+		}
+		break;
+#endif		
+
+	}
 }
 //これが実際に使う方の初期化
 void enemy_set(EnemyData* obj, ENEMY* ene)
@@ -148,6 +173,7 @@ void ENEMY::enemy1_move()
 	switch (get_state())
 	{
 	case 0:
+		//出現位置になったら
 		enemy_app -= stage[0].speed.y*magnification;
 		if (enemy_app <= 0)
 		{
@@ -237,7 +263,7 @@ void enemy_update()
 		if (enemy_test[i].app==-1) { break; }//終了フラグで終わる
 		for(int j=0;j<shotmax;j++)//プレイヤーの弾との当たり判定
 		{
-			jugde_flg[pls_en] = judge.circle(shot[j].pos.x, shot[j].pos.y, 50, enemy[i].pos.x, enemy[i].pos.y, 50);
+			jugde_flg[pls_en] = judge.circle(shot[j].pos.x, shot[j].pos.y, player_rad, enemy[i].pos.x, enemy[i].pos.y, enemy_rad);
 			if (jugde_flg[pls_en]&&shot[j].exist&&enemy[i].exist)
 			{
 				shot[j].exist = false;
@@ -246,14 +272,14 @@ void enemy_update()
 		}
 		for (int j = 0; j < missilemax; j++)
 		{
-			jugde_flg[pls_en] = judge.circle(missile[j].pos.x, missile[j].pos.y, 50, enemy[i].pos.x, enemy[i].pos.y, 50);
+			jugde_flg[pls_en] = judge.circle(missile[j].pos.x, missile[j].pos.y, shot_rad, enemy[i].pos.x, enemy[i].pos.y, enemy_rad);
 			if (jugde_flg[pls_en] && missile[j].exist&&enemy[i].exist)
 			{
 				missile[j].exist = false;
 				enemy[i].exist = false;
 			}
 		}
-	   jugde_flg[pl_en]= judge.circle(player.pos.x, player.pos.y, 50,enemy[i].pos.x,enemy[i].pos.y,50);
+	   jugde_flg[pl_en]= judge.circle(player.pos.x, player.pos.y, player_rad,enemy[i].pos.x,enemy[i].pos.y, enemy_rad);
 		enemy[i].update();
 		if(jugde_flg[pl_en])
 		{

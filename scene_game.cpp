@@ -1,4 +1,13 @@
-#include "all.h"
+#include "./GameLib/game_lib.h"
+#include "./GameLib/template.h"
+#include "./GameLib/input_manager.h"
+#include "./GameLib/obj2d_data.h"
+#include "common.h"
+#include "bg.h"
+#include "enemy.h"
+#include "player.h"
+#include "ui.h"
+#include "audio.h"
 using namespace GameLib;
 using namespace input;
 int game_state;    // ó‘Ô
@@ -16,13 +25,14 @@ void game_init()
 	player_init();
 	enemy_init();
     game_state = 0;
- 
+	fadeOut = 0;
 }
 void common()
 {
 	bg_update                                                                                                                                                                                                                                            ();
 	player_update();
 	enemy_update();
+	note_update();
 }
 void game_update()
 {
@@ -59,10 +69,17 @@ void game_update()
 
 void game_draw()
 {
-    bg_draw();
-	enemy_draw();
-	player_draw();
-    ui_draw(game_state, game_score);
+		bg_draw();
+	switch (game_state)
+	{
+	case 1:
+		enemy_draw();
+		player_draw();
+		note_draw();
+		ui_draw(game_state, game_score);
+		break;
+	}
+   
 }
 
 void game_end()//‰æ‘œ‚Ì”jŠü

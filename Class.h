@@ -1,5 +1,5 @@
 #pragma once
-
+#include "common.h"
 struct COLOR
 {
 	float r, g, b, a;

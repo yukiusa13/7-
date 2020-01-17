@@ -1,0 +1,7 @@
+キーラベル
+シーン切り替え【PAD_START】→　ENTER(kb) STATE(con)
+弾を打つ【PAD_TRG3】→C(kb) X(con)
+注意マークを出す(デバッグ用)【PAD_TRG4】→ D(kb) Y(con)
+移動【PAD_UP|PAD_DOWN|PAD_LEFT|PAD_RIGHT】→矢印キー(ｋｂ)　十字キー(con)
+加速【PAD_R1】→S(kb) RB(con)
+減速【PAD_L1】→A(kb) LB(con)
