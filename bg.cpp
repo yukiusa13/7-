@@ -84,19 +84,7 @@ void bg_update()
 }
 void bg_draw()
 {
-	if (game_state == 1) //ゲーム1
-	{
 		sprite_render(sprData[Bg], 0, 0, 1, 1, 0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
 		sprite_render(sprData[Bg], stage[0].pos.x, stage[0].pos.y,1,1, SCREEN_WIDTH,0, area_right - area_left, 1200);
 		sprite_render(sprData[Bg], stage[1].pos.x, stage[1].pos.y, 1, 1, SCREEN_WIDTH, 0, area_right - area_left, 1200);
-	}
-
-
-    if (game_state == 2)//フェイドアウト用ウィンドウ
-    {
-        if (fadeOut > 0.0f)
-        {
-            primitive::rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,0, 0, 0, 0, 0, 0, fadeOut);
-        }
-    }  
 }

@@ -4,6 +4,7 @@
 #include "./GameLib/obj2d_data.h"
 #include "common.h"
 #include "audio.h"
+
 #include "scene_title.h"
 #include "scene_game.h"
 using namespace GameLib;

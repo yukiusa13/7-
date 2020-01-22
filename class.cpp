@@ -192,3 +192,23 @@ bool JUDGE::circle(float px_a, float py_a, int r_a, float px_b, float py_b, int 
 	if (ra_b >= (xa_b + ya_b)) { return true; }
 	else { return false; }
 }
+
+bool JUDGE::laser(int xory, float biginpos, float finpos, float judgepos, float laserwidth, VECTOR2 pos,float objwidth)
+{
+	switch (xory)
+	{
+	case 0://X‚Ì”»’è
+		if(biginpos>(pos.y+objwidth))return false;
+		if(finpos< (pos.y - objwidth))return false;
+		if (((pos.x - judgepos)*(pos.x - judgepos)) < ((laserwidth + objwidth)*(laserwidth + objwidth)))return true;
+		else return false;
+		break;
+	case 1://Y‚Ì”»’è
+		if (biginpos > (pos.x + objwidth))return false;
+		if (finpos < (pos.x - objwidth))return false;
+		if (((pos.y - judgepos)*(pos.y - judgepos)) < ((laserwidth + objwidth)*(laserwidth + objwidth)))return true;
+		else return false;
+		break;
+	}
+
+}

@@ -70,6 +70,8 @@ void ENEMY::shot_update()
 //敵のデータの設定
 void ENEMY::set_data(int type,float app,float px, float py)
 {
+	set_state(0);
+	exist = false;
 	enemy_type = type;
 	enemy_app = app;
 	pos.x = px;
@@ -131,8 +133,9 @@ void ENEMY::dorw()
 	case 10:
 		if (ENEMY::exist)//存在しているものだけ描画
 		{
-			//sprite_render(sprData[BOSS], pos.x, pos.y, 1, 1, 0, 0, 600, 250, 300, 125);
-			sprite_render(sprData[Enemy], pos.x, pos.y, 1, 1, 0, 0, 74, 74, 74 / 2, 74 / 2);
+			anim(sprData[Boss], 3, 3, 1, 3, pos.x, pos.y, 1, 1, 0, 0, 600, 250, 300, 125);
+			//sprite_render(sprData[Boss], pos.x, pos.y, 1, 1, 0, 0, 600, 250, 300, 125);
+			//sprite_render(sprData[Enemy], pos.x, pos.y, 1, 1, 0, 0, 74, 74, 74 / 2, 74 / 2);
 			//当たり判定確認用のプリミティブ(円)の描画//
 			primitive::circle(pos.x, pos.y, enemy_rad, 1, 0, 0, 0.3);
 
@@ -142,6 +145,7 @@ void ENEMY::dorw()
 
 	}
 }
+
 //これが実際に使う方の初期化
 void enemy_set(EnemyData* obj, ENEMY* ene)
 {
@@ -232,7 +236,7 @@ void ENEMY::enemy_test()
 void enemy_init()
 {
 #if debug
-	for (int i = 0;ENEMYMAX;i++)
+	for (int i = 0;i<ENEMYMAX;i++)
 	{
 		if (enemy_test[i].app==-1) {break;}//終了フラグで終わる
 		enemy_set(&enemy_test[i], &enemy[i]);
@@ -258,7 +262,7 @@ extern OBJ missile[missilemax];
 void enemy_update()
 {
 #if debug
-	for (int i = 0; ENEMYMAX; i++)
+	for (int i = 0;i< ENEMYMAX; i++)
 	{
 		if (enemy_test[i].app==-1) { break; }//終了フラグで終わる
 		for(int j=0;j<shotmax;j++)//プレイヤーの弾との当たり判定
@@ -305,7 +309,7 @@ void enemy_update()
 void enemy_draw()
 {
 #if debug
-	for (int i = 0; ENEMYMAX; i++)
+	for (int i = 0; i<ENEMYMAX; i++)
 	{
 		if (enemy_test[i].app == -1) { break; }
 		enemy[i].dorw();
@@ -313,3 +317,4 @@ void enemy_draw()
 #endif // debug
 
 }
+

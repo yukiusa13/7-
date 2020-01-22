@@ -23,7 +23,7 @@ private:
 	bool timer_init(int STATE);
 public:
 	//フェイドイン,アウト用の変数
-	int fade;
+	//int fade;
 	int next;
 
 	OBJ();
@@ -102,4 +102,11 @@ public:
 	//float px_b,folat py_b->当たり判定を行う2つのオブジェクトの2つ目の中心座標(X,Y)
 	//int r_b-> 当たり判定を行う2つのオブジェクトの2つ目の半径
 	bool circle(float px_a, float py_a, int r_a, float px_b, float py_b, int r_b);
+	//レーザーとの当たり判定
+	//int xory ->ｘ座標の判定かｙ座標の判定の設定　(0->x,1->y)
+	//float biginpos, float finfin ->判定の初め(bigin)と終わり(fin)の座標
+	//float judgepos, float laserwidth ->判定線(レーザーの中心線)と幅(判定線からレーザーの)
+	bool laser(int xory, float biginpos, float finpos,
+		float judgepos, float laserwidth,
+		VECTOR2 pos, float objwidth);
 }judge;

@@ -24,6 +24,7 @@ public:
 	void shot_update();//ショットの移動処理など
 	void update();//更新処理
 	void dorw();//描画処理
+	
 	void enemy0_move();//敵タイプ０の行動
 	void enemy1_move();//敵タイプ１の行動
 	void enemy2_move();//敵タイプ２の行動
@@ -38,6 +39,7 @@ public:
 	void enemy_init();//game_init書くやつ
 	void enemy_update();//game_update書くやつ
 	void enemy_draw();//game_draw書くやつ
+	
 
 
 #if 0
