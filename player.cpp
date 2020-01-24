@@ -31,6 +31,10 @@ void player_init()
 	{
 		shot[i].exist = false;
 	}
+	for (int i = 0; i < missilemax; i++)
+	{
+		missile[i].exist = false;
+	}
 	game_timer=0;
 }
 
@@ -234,24 +238,26 @@ void player_draw()
 
 	}
 }
-bool tutorialflg[4];//チュートリアル終了フラグ
-int tutorialtimer[4];
+bool tutorialflg[2];//チュートリアル終了フラグ
+int tutorialtimer[3];
 void reset()
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		tutorialtimer[i] = 0;
 		tutorialflg[i] = false;
 	}
 }
+VECTOR2 uipos;
 
 	
 void tutorial()//チュートリアル
 {
+	uipos = {player.pos.x-100,player.pos.y-150};
 	player.next = player.get_state()+1;
 	switch (player.get_state())
 	{
-	case 0:
+	case 0://フェイドイン
 		reset();
 		magnification = 0;
 		player.pos.y -= player.speed.y;
@@ -260,54 +266,39 @@ void tutorial()//チュートリアル
 			player.set_state(player.next);
 		}
 		break;
-	case 1:
-		if (STATE(0)&PAD_UP) 
+	case 1://移動
+		if (STATE(0)&PAD_UP)
 		{
-			
-			if (tutorialtimer[0]>=30)
-			{
-				tutorialflg[0] = true;
-			}
-			tutorialtimer[0]++; 
+			tutorialtimer[0]++;
 		}
-		else tutorialtimer[0] = 0;
-		if (STATE(0)&PAD_DOWN)  
+		else if (STATE(0)&PAD_DOWN)
 		{
-			
-			if (tutorialtimer[1] >= 30)
-			{
-				tutorialflg[1] = true;
-			}
+			tutorialtimer[0]++;
+		}
+		else if (STATE(0)&PAD_LEFT)
+		{
+			tutorialtimer[0]++;
+		}
+		else if (STATE(0)&PAD_RIGHT)
+		{
+			tutorialtimer[0]++;
+		}
+		if (tutorialtimer[0] >= 180)
+		{
+			tutorialflg[0] = true;
+		}
+		if (tutorialflg[0])
+		{
+			tutorialtimer[0]=180;
 			tutorialtimer[1]++;
-		}
-		else tutorialtimer[1] = 0;
-		if (STATE(0)&PAD_LEFT) 
-		{
- 
-			if (tutorialtimer[2] >= 30)
+			if (tutorialtimer[1] >= 60)
 			{
-				tutorialflg[2] = true;
+				reset();
+				player.set_state(player.next);
 			}
-			tutorialtimer[2]++;
-		}
-		else tutorialtimer[2] = 0;
-		if (STATE(0)&PAD_RIGHT) 
-		{
-			if (tutorialtimer[3] >= 30)
-			{
-				tutorialflg[3] = true;
-			}
-			tutorialtimer[3]++;
-		}
-		else tutorialtimer[3] = 0;
-	
-		if (tutorialflg[0] && tutorialflg[1] && tutorialflg[2] && tutorialflg[3])
-		{
-			reset();
-			player.set_state(player.next);
 		}
 		break;
-	case 2:
+	case 2://ショット
 	
 		//弾の発射
 		if (STATE(0)&PAD_TRG3)
@@ -327,47 +318,62 @@ void tutorial()//チュートリアル
 			{
 				sound::play(gibara);
 			}
-			
+			tutorialtimer[0]++;
 			shot_timer++;
 		}
 		else if (shot_timer != 0) { shot_timer = 0; }//タイマーのリセット
-		if (shot_timer >= 300)
+		if (tutorialtimer[0] >= 120)
 		{
 			tutorialflg[0] = true;
 		}
-		if (tutorialflg[0])
-		{
-			player.set_state(player.next);
-		}
+		
+			if (tutorialflg[0])
+			{
+				tutorialtimer[0] =120;
+				tutorialtimer[1]++;
+				if (tutorialtimer[1] >= 60)
+				{
+					reset();
+					player.set_state(player.next);
+				}
+			}
+			
 		break;
-	case 3:
+	case 3://加速減速
 		
 		acceleration();
 		if(STATE(0)&PAD_L1)
 		{
 			tutorialtimer[1]++;
 		}
-		else { tutorialtimer[1]=0;}
+		
 		if (STATE(0)&PAD_R1)
 		{
-			tutorialtimer[2]++;
+			tutorialtimer[0]++;
 		}
-		else { tutorialtimer[2]=0; }
-		if (tutorialtimer[1] >= 30)
+		
+		if (tutorialtimer[1] >= 90)
 		{
+			tutorialtimer[1] = 90;
 			tutorialflg[1] = true;
 		}
-		if (tutorialtimer[2] >= 30)
+		if (tutorialtimer[0] >= 90)
 		{
-			tutorialflg[2] = true;
+			tutorialtimer[0] = 90;
+			tutorialflg[0] = true;
 		}
-		if (tutorialflg[1] && tutorialflg[2])
+		if (tutorialflg[1] && tutorialflg[1])
 		{
-			reset();
-			player.set_state(player.next);
+
+			tutorialtimer[2]++;
+			if (tutorialtimer[2] >= 60)
+			{
+				reset();
+				player.set_state(player.next);
+			}
 		}
 		break;
-	case 4:
+	case 4://フェイドアウト前準備
 		if (player.pos.x != SCREEN_WIDTH / 2)
 		{
 			if (player.pos.x < SCREEN_WIDTH / 2)
@@ -394,10 +400,12 @@ void tutorial()//チュートリアル
 		else { tutorialflg[1] = true; }
 		if (tutorialflg[0] && tutorialflg[1])
 		{
+			player.speed.y = -10;
 			player.set_state(player.next);
 		}
 		break;
-	case 5:
+	case 5://フェイドアウト
+		player.speed.y += 0.5;
 		player.pos.y -= player.speed.y;
 		if (player.pos.y <= -50)
 		{
@@ -414,8 +422,7 @@ void tutorial()//チュートリアル
 		case 2:
 			magnification = 0.5;
 		case 3:
-			shot_update();
-			missile_update();
+			
 			if (STATE(0)&PAD_UP) { player.pos.y -= player.speed.y; }
 			if (STATE(0)&PAD_DOWN) { player.pos.y += player.speed.y; }
 			if (STATE(0)&PAD_LEFT) { player.pos.x -= player.speed.x; }
@@ -428,5 +435,46 @@ void tutorial()//チュートリアル
 		case 4:
 			magnification = 0.5;
 	}
-	
+	shot_update();
+	missile_update();
 }
+void tutorialdrow()
+{
+	switch (player.get_state())
+	{
+	case 1:
+		player.anim(sprData[Tutorial],30, 4, 1, 4, uipos.x-10, uipos.y, 0.6, 0.6, 0, 0, 100, 100);
+		sprite_render(sprData[Tutorial], uipos.x + 55, uipos.y, 0.6, 0.6, 0, 340, 200, 85);
+		sprite_render(sprData[Tutorial], uipos.x + 150, uipos.y, 1, 1, 60*(tutorialtimer[0]/12), 280, 60, 60);
+		break;
+	case 2:
+		player.anim(sprData[Tutorial], 60, 2, 1, 2, uipos.x, uipos.y, 0.8,0.8, 0, 200, 80, 80);
+		sprite_render(sprData[Tutorial], uipos.x + 70, uipos.y+10, 0.8, 0.8, 0, 540, 200, 85);
+		sprite_render(sprData[Tutorial], uipos.x + 160, uipos.y, 1, 1, 60 * (tutorialtimer[0] / 8), 280, 60, 60);
+		break;
+	case 3:
+		player.anim(sprData[Tutorial], 60, 2, 1, 2, uipos.x-10, uipos.y, 1, 1, 0, 100, 80, 100);
+		sprite_render(sprData[Tutorial], uipos.x + 70, uipos.y + 0, 0.8,0.8, 0, 424, 200, 115);
+		sprite_render(sprData[Tutorial], uipos.x + 180, uipos.y, 0.8, 0.8, 60 * (tutorialtimer[1] / 6), 280, 60, 60);
+		sprite_render(sprData[Tutorial], uipos.x + 180, uipos.y+50, 0.8, 0.8, 60 * (tutorialtimer[0] / 6), 280, 60, 60);
+		break;
+	}
+}
+#if 0
+チュートリアルセット
+移動ボタン　x100_y100
+LBボタン　x150_y80
+RBボタン  x200_y80
+Xボタン　x280_y80
+ゲージ　x340_y60
+移動フォント　x424_y158
+減速フォント　x482_y108
+加速フォント　x540_y108
+射撃フォント　x598_y108
+
+弾セット
+x40_y22
+
+敵セット
+x74_y74
+#endif

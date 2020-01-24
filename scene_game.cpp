@@ -85,16 +85,19 @@ void game_draw()
 	{
 	case 1:
 	
-
+		tutorialdrow();
 	case 3:
 		enemy_draw();
 		player_draw();
 		note_draw();
-		ui_draw(game_state, game_score);
+		
 		break;
 
 
 	}
+	sprite_render(sprData[Bg], 0, 0, 1, 1, 0, SCREEN_HEIGHT, area_left, SCREEN_HEIGHT);
+	sprite_render(sprData[Bg], area_right, 0, 1, 1, area_right, SCREEN_HEIGHT, area_left, SCREEN_HEIGHT);
+	ui_draw(game_state, game_score);
 		if (fadeOut > 0.0f)
 		{
 			primitive::rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 0, 0, 0, fadeOut);

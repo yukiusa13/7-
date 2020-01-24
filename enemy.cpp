@@ -11,6 +11,7 @@ extern OBJ stage[2];
 ENEMY enemy[ENEMYMAX];//ENEMYクラスの実体
 extern float magnification;
 extern Sprite* sprData[Spr_Max];
+extern int game_state;
 EnemyData enemy_data[]//敵情報
 {
 	//{敵のタイプ,敵の出現場所,初期X座標,初期Y座標},
@@ -259,6 +260,7 @@ void enemy_init()
 extern OBJ player;
 extern OBJ shot[shotmax];
 extern OBJ missile[missilemax];
+bool isAlive();
 void enemy_update()
 {
 #if debug
@@ -289,9 +291,9 @@ void enemy_update()
 		{
 			enemy[i].exist = false;
 		}
+
 	}
-#endif
-#if 0
+#else
 		switch (ステージ番号)
 		{
 		case 0:
@@ -303,7 +305,10 @@ void enemy_update()
 			break;
 		}
 #endif // 0
-
+		if (isAlive())
+		{
+			//game_state++;
+		}
 
 }
 void enemy_draw()
@@ -316,5 +321,31 @@ void enemy_draw()
 	}
 #endif // debug
 
+}
+
+bool isAlive()
+{
+	
+#if debug
+	for (int i = 0; i < ENEMYMAX; i++)
+	{
+		if (enemy[i].exist)continue;
+		return true;
+		
+		
+	}
+#else
+	switch (ステージ番号)
+	{
+	case 0:
+		for (int i = 0;; i++)
+		{
+			if (enemy_data[i].app == -1) { break; }//終了フラグで終わる
+
+		}
+		break;
+	}
+#endif // 0
+	return false;
 }
 

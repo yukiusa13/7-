@@ -31,6 +31,7 @@ enum
 	Note,
 	Enemy,
 	Boss,
+	Tutorial,
 	Spr_Max
 };
 ////ミュージック用////
@@ -47,5 +48,6 @@ enum
 	plm_en,
 	Flg_Max
 };
+
 
 #endif// ! INCLUDED_COMMON

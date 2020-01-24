@@ -21,6 +21,7 @@ wchar_t* sprName[] =
 	L"./Data/Images/note.png",
 	L"./Data/Images/enemy.png",
 	L"./Data/Images/boss.png",
+	L"./Data/Images/tutorial.png",
 };
 void spr_load()
 {

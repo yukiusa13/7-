@@ -12,6 +12,7 @@ extern Sprite* sprData[Spr_Max];
 #if debug
 extern OBJ test;
 extern OBJ player;
+extern int tutorialtimer[3];
 #endif
 extern int game_timer;
 void ui_draw(int state, int score)
@@ -22,7 +23,7 @@ void ui_draw(int state, int score)
         break;
     case 1:
 #if debug//テスト用のタイマー
-		dispScore(player.get_state(), 200, 0, 0.5, 6);
+		dispScore(tutorialtimer[1] , 200, 0, 0.5, 6);
 #endif
 		break;
     }

@@ -13,6 +13,7 @@ class ENEMY :
 	public OBJ
 {
 private:
+	int hp = 1;
 	static const int shot_max = 32;
 	OBJ enemyshot[shot_max];//敵の弾の実態
 	int enemy_type=-1;//敵のタイプ　初期値はマイナス　
