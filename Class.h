@@ -1,4 +1,5 @@
 #pragma once
+#include "common.h"
 struct COLOR
 {
 	float r, g, b, a;
@@ -21,6 +22,10 @@ private:
 	//アニメーションタイマー初期化するためのフラグ返す関数
 	bool timer_init(int STATE);
 public:
+	//フェイドイン,アウト用の変数
+	//int fade;
+	int next;
+
 	OBJ();
 	int hp;
 	void set_state(int STATE);
@@ -29,6 +34,7 @@ public:
 	VECTOR2 pos;
 	int LR;
 	bool exist;
+
     //画像データ
     //切り替え時間(フレーム単位)
     //横、縦のチップの個数(x,y)
@@ -76,9 +82,31 @@ public:
 		float rad = 0.0f,
 		float r = 1.0f, float g = 1.0f, float b = 1.0f, float a = 1.0f);
 };
-////加速度の計算////
-//速度を変えるOBJの実体
-//最高速度
-//最低速度
-//基準の速度から最高速度、最低速度までの時間引数なしは0.5秒
-void acceleration(OBJ* obj, const float max, const float min, const float flametimer = 30);
+//当たり判定クラス(実体のおまけ付き)
+static bool jugde_flg[Flg_Max];
+static class JUDGE
+{
+public:
+	//CAT:当たり判定
+    //当たり判定代入用の変数
+	//矩形の当たり判定
+    //float px_a,float py_a ->当たり判定を行う2つのオブジェクトの1つ目の左上の座標(X,Y)
+    //int sx_a,int sy_a ->当たり判定を行う2つのオブジェクトの1つ目の横と縦の長さ(X,Y)
+    //float px_a,float py_a ->当たり判定を行う2つのオブジェクトの2つ目の左上の座標(X,Y)
+    //int sx_a,int sy_a ->当たり判定を行う2つのオブジェクトの2つ目の横と縦の長さ(X,Y)
+	bool rect(float px_a, float py_a, int sx_a, int sy_a,
+		float px_b, float py_b, int sx_b, int sy_b);
+	//円の当たり判定
+	//float px_a,folat py_a->当たり判定を行う2つのオブジェクトの1つ目の中心座標(X,Y)
+	//int r_a-> 当たり判定を行う2つのオブジェクトの1つ目の半径
+	//float px_b,folat py_b->当たり判定を行う2つのオブジェクトの2つ目の中心座標(X,Y)
+	//int r_b-> 当たり判定を行う2つのオブジェクトの2つ目の半径
+	bool circle(float px_a, float py_a, int r_a, float px_b, float py_b, int r_b);
+	//レーザーとの当たり判定
+	//int xory ->ｘ座標の判定かｙ座標の判定の設定　(0->x,1->y)
+	//float biginpos, float finfin ->判定の初め(bigin)と終わり(fin)の座標
+	//float judgepos, float laserwidth ->判定線(レーザーの中心線)と幅(判定線からレーザーの)
+	bool laser(int xory, float biginpos, float finpos,
+		float judgepos, float laserwidth,
+		VECTOR2 pos, float objwidth);
+}judge;
