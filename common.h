@@ -11,8 +11,8 @@
 ////行動可能範囲の設定用////
 #define area_up    (0)
 #define	area_down  (1080)
-#define	area_left  (0)
-#define	area_right (1920)
+#define	area_left  (300)
+#define	area_right (1620)
 
 
 ////左右/////
@@ -24,10 +24,14 @@ void spr_load();//画像読み込み関数
 //// スプライト用 ////
 enum 
 {
-	bg = 0,
-	number,
-	SHOT,
-	PLAYER,
+	Bg = 0,
+	Number,
+	Shot,
+	Player,
+	Note,
+	Enemy,
+	Boss,
+	Tutorial,
 	Spr_Max
 };
 ////ミュージック用////
@@ -40,7 +44,10 @@ enum
 enum
 {
 	pl_en = 0,
+	pls_en,
+	plm_en,
 	Flg_Max
 };
+
 
 #endif// ! INCLUDED_COMMON

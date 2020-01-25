@@ -1,4 +1,9 @@
-#include "all.h"
+#include "./GameLib/game_lib.h"
+#include "./GameLib/template.h"
+#include "./GameLib/input_manager.h"
+#include "./GameLib/obj2d_data.h"
+#include "audio.h"
+#include "common.h"
 using namespace GameLib;
 using namespace input;
 int title_state;      // 状態
@@ -13,6 +18,10 @@ wchar_t* sprName[] =
 	L"./Data/Images/number.png",
 	L"./Data/Images/shot.png",
 	L"./Data/Images/player.png",
+	L"./Data/Images/note.png",
+	L"./Data/Images/enemy.png",
+	L"./Data/Images/boss.png",
+	L"./Data/Images/tutorial.png",
 };
 void spr_load()
 {
@@ -59,12 +68,7 @@ void title_draw()
 {
     if (title_state == 1) //タイトル1
     {
-        sprite_render(sprData[bg],
-            0, 0,
-            1, 1,
-            0, 0,
-            1920, 1080,
-            0, 0);
+		sprite_render(sprData[Bg], 0, 0, 1, 1, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
     if (title_state == 2) //フェイドアウト
     {

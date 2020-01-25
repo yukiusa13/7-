@@ -1,4 +1,8 @@
-#include "all.h"
+#include "./GameLib/game_lib.h"
+#include "./GameLib/template.h"
+#include "./GameLib/input_manager.h"
+#include "./GameLib/obj2d_data.h"
+#include "common.h"
 using namespace GameLib;
 //CAT:âπäyì«Ç›çûÇ›
 wchar_t* MusicName[] =
