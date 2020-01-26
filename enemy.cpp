@@ -364,10 +364,11 @@ bool isAlive()
 	switch (ステージ番号)
 	{
 	case 0:
-		for (int i = 0;; i++)
+		for (int i = 0; i < ENEMYMAX; i++)
 		{
-			if (enemy_data[i].app == -1) { break; }//終了フラグで終わる
-
+			if (enemy[i].get_state() <= 0)continue;
+			if (enemy[i].exist)break;
+			return true;
 		}
 		break;
 	}
