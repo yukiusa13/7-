@@ -32,6 +32,8 @@ enum
 	Enemy,
 	Boss,
 	Tutorial,
+	Mis,
+	Stato,
 	Spr_Max
 };
 ////ミュージック用////

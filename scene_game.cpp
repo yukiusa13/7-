@@ -17,7 +17,7 @@ extern float fadeOut;
 float clearfade;
 extern Sprite* sprData[Spr_Max];
 extern wchar_t* sprName[];
-
+extern int stagenum;
 
 void game_init()
 {
@@ -28,6 +28,7 @@ void game_init()
     game_state = 0;
 	fadeOut = 0;
 	clearfade = 0.0f;
+	stagenum = 0;
 }
 void common()
 {

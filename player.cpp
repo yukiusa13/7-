@@ -149,6 +149,13 @@ void player_update()
 		}
 		break;
 	case 1:
+		player.pos.y -= player.speed.y;
+		if (player.pos.y < 950)
+		{
+			player.set_state(player.next);
+		}
+		break;
+	case 2:
 		//移動処理
 		if (STATE(0)&PAD_UP) { player.pos.y -= player.speed.y; }
 		if (STATE(0)&PAD_DOWN) { player.pos.y += player.speed.y; }
@@ -206,6 +213,9 @@ void player_update()
 #endif
 		game_timer++;
 		break;
+	case 3:
+
+		break;
 	}
 }
 
@@ -228,8 +238,8 @@ void player_draw()
 	//ミサイルの描画
 	for (int i = 0; i < missilemax; i++)
 	{
-		if (missile[i].exist)   sprite_render(sprData[Shot], missile[i].pos.x  , missile[i].pos.y  , 1, 1, 0, 0, 20, 40, 10, 20);
-		if (missile[i+1].exist) sprite_render(sprData[Shot], missile[i+1].pos.x, missile[i+1].pos.y, 1, 1, 0, 0, 20, 40, 10, 20);
+		if (missile[i].exist)   sprite_render(sprData[Mis], missile[i].pos.x  , missile[i].pos.y  , 1, 1, 0, 0, 64, 64, 32, 32);
+		if (missile[i+1].exist) sprite_render(sprData[Mis], missile[i+1].pos.x, missile[i+1].pos.y, 1, 1, 0, 0, 64, 64, 32, 32);
 #if debug	
 		if (missile[i].exist)   primitive::circle(missile[i].pos.x  , missile[i].pos.y  , shot_rad, 0, 0, 1, 0.5);
 		if (missile[i+1].exist) primitive::circle(missile[i+1].pos.x, missile[i+1].pos.y, shot_rad, 0, 0, 1, 0.5);
@@ -288,13 +298,13 @@ void tutorial()//チュートリアル
 		{
 			tutorialtimer[0]++;
 		}
-		if (tutorialtimer[0] >= 180)
+		if (tutorialtimer[0] >=90)
 		{
 			tutorialflg[0] = true;
 		}
 		if (tutorialflg[0])
 		{
-			tutorialtimer[0]=180;
+			tutorialtimer[0]=90;
 			tutorialtimer[1]++;
 			if (tutorialtimer[1] >= 60)
 			{
@@ -440,11 +450,6 @@ void tutorial()//チュートリアル
 			{
 				player.set_state(4);
 			}
-			
-
-
-
-
 		break;
 		case 4:
 			magnification = 0.5;
@@ -459,7 +464,7 @@ void tutorialdrow()
 	case 1:
 		player.anim(sprData[Tutorial],30, 4, 1, 4, uipos.x-10, uipos.y, 0.6, 0.6, 0, 0, 100, 100);
 		sprite_render(sprData[Tutorial], uipos.x + 55, uipos.y, 0.6, 0.6, 0, 340, 200, 85);
-		sprite_render(sprData[Tutorial], uipos.x + 150, uipos.y, 1, 1, 60*(tutorialtimer[0]/12), 280, 60, 60);
+		sprite_render(sprData[Tutorial], uipos.x + 150, uipos.y, 1, 1, 60*(tutorialtimer[0]/6), 280, 60, 60);
 		break;
 	case 2:
 		player.anim(sprData[Tutorial], 60, 2, 1, 2, uipos.x, uipos.y, 0.8,0.8, 0, 200, 80, 80);

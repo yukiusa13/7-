@@ -55,9 +55,9 @@ void stagechange(OBJ *obj)
 			//ステージがまだのっこってるなら
 			if ((stagenum + 1) < 1)
 			{
+				stagenum++;
 				player_init();
 				enemy_init();
-				stagenum++;
 			}
 			else { game_state++; }
 

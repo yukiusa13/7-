@@ -22,6 +22,8 @@ wchar_t* sprName[] =
 	L"./Data/Images/enemy.png",
 	L"./Data/Images/boss.png",
 	L"./Data/Images/tutorial.png",
+	L"./Data/Images/mis.png",
+	L"./Data/Images/stato.png",
 };
 void spr_load()
 {
@@ -69,6 +71,9 @@ void title_draw()
     if (title_state == 1) //タイトル1
     {
 		sprite_render(sprData[Bg], 0, 0, 1, 1, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		if(title_timer%60<30)
+		sprite_render(sprData[Stato], 500, 800, 1, 1, 0, 0);
+
     }
     if (title_state == 2) //フェイドアウト
     {

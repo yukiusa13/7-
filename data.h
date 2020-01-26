@@ -3,6 +3,7 @@
 #define player_rad (20)
 #define enemy_rad  (37)
 #define shot_rad   (20)
+#define mis_rad   (20)
 
 ////shotŠÖ˜A////
 #define shotmax (32)

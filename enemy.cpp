@@ -303,7 +303,7 @@ void enemy_update()
 		}
 		for (int j = 0; j < missilemax; j++)
 		{
-			jugde_flg[pls_en] = judge.circle(missile[j].pos.x, missile[j].pos.y, shot_rad, enemy[i].pos.x, enemy[i].pos.y, enemy_rad);
+			jugde_flg[pls_en] = judge.circle(missile[j].pos.x, missile[j].pos.y, mis_rad, enemy[i].pos.x, enemy[i].pos.y, enemy_rad);
 			if (jugde_flg[pls_en] && missile[j].exist&&enemy[i].exist)
 			{
 				missile[j].exist = false;
