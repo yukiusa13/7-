@@ -17,7 +17,7 @@ OBJ shot[shotmax];
 OBJ missile[missilemax];
 extern Sprite* sprData[Spr_Max];
 extern int game_state;
-
+extern int fadostate;
 //ゲームタイマー
 int game_timer;
 
@@ -36,6 +36,7 @@ void player_init()
 		missile[i].exist = false;
 	}
 	game_timer=0;
+	fadostate = 0;
 }
 
 void shot_init()
@@ -153,12 +154,15 @@ void player_update()
 		if (STATE(0)&PAD_DOWN) { player.pos.y += player.speed.y; }
 		if (STATE(0)&PAD_LEFT) { player.pos.x -= player.speed.x; }
 		if (STATE(0)&PAD_RIGHT) { player.pos.x += player.speed.x; }
+		
 		//エリア外チャック
-		if (player.pos.x > area_right - 50) { player.pos.x = area_right - 50; }
-		if (player.pos.x < area_left + 50) { player.pos.x = area_left + 50; }
-		if (player.pos.y < area_up + 50) { player.pos.y = area_up + 50; }
-		if (player.pos.y > area_down - 50) { player.pos.y = area_down - 50; }
-
+		if (!fadostate)
+		{
+			if (player.pos.x > area_right - 50) { player.pos.x = area_right - 50; }
+			if (player.pos.x < area_left + 50) { player.pos.x = area_left + 50; }
+			if (player.pos.y < area_up + 50) { player.pos.y = area_up + 50; }
+			if (player.pos.y > area_down - 50) { player.pos.y = area_down - 50; }
+		}
 		//弾の発射
 		if (STATE(0)&PAD_TRG3)
 		{
@@ -432,6 +436,15 @@ void tutorial()//チュートリアル
 			if (player.pos.x < area_left + 50) { player.pos.x = area_left + 50; }
 			if (player.pos.y < area_up + 50) { player.pos.y = area_up + 50; }
 			if (player.pos.y > area_down - 50) { player.pos.y = area_down - 50; }
+			if (STATE(0)&PAD_TRG1&&STATE(0)&PAD_TRG2&&STATE(0)&PAD_TRG3&&STATE(0)&PAD_TRG4)
+			{
+				player.set_state(4);
+			}
+			
+
+
+
+
 		break;
 		case 4:
 			magnification = 0.5;

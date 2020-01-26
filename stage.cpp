@@ -53,7 +53,7 @@ void stagechange(OBJ *obj)
 		if (obj->pos.y <= -50)
 		{
 			//ステージがまだのっこってるなら
-			if ((stagenum + 1) < 3)
+			if ((stagenum + 1) < 1)
 			{
 				player_init();
 				enemy_init();

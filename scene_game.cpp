@@ -14,6 +14,7 @@ int game_state;    // ó‘Ô
 int game_score;
 extern int nextScene;
 extern float fadeOut;
+float clearfade;
 extern Sprite* sprData[Spr_Max];
 extern wchar_t* sprName[];
 
@@ -26,6 +27,7 @@ void game_init()
 	enemy_init();
     game_state = 0;
 	fadeOut = 0;
+	clearfade = 0.0f;
 }
 void common()
 {
@@ -58,17 +60,18 @@ void game_update()
 		 common();
          if (TRG(0) & PAD_START)
          {
-             fadeOut = 0.0f;
+			 clearfade = 0.0f;
              game_state++;
          }
     break;
      
      case 4:
-         fadeOut += 0.0167f;
-         if (fadeOut >= 1.0f)
-         {
-             game_state++;
-         }
+		 clearfade += 0.0167f;
+		 if (TRG(0) & PAD_START)
+		 {
+			 
+			 game_state++;
+		 }
          break;
     }
     if (game_state >= game_max) 
@@ -92,7 +95,9 @@ void game_draw()
 		note_draw();
 		
 		break;
-
+	case 4:
+		
+		break;
 
 	}
 	sprite_render(sprData[Bg], 0, 0, 1, 1, 0, SCREEN_HEIGHT, area_left, SCREEN_HEIGHT);
@@ -102,7 +107,10 @@ void game_draw()
 		{
 			primitive::rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 0, 0, 0, fadeOut);
 		}
-	
+		if (clearfade>0.0f)
+		{
+			sprite_render(sprData[Bg], 0, 0, 1, 1, 0, SCREEN_HEIGHT * 2, 1920, 1080,0,0,0,1,1,1, clearfade);
+		}
 }
 
 void game_end()//‰æ‘œ‚Ì”jŠü
